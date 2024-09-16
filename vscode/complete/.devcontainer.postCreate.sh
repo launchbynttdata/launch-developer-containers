@@ -29,8 +29,8 @@ github_public_user="CHANGEME"
 github_public_email="CHANGEME@CHANGEME.com"
 
 # Set your ENV vars
-local bash_rc="/home/${container_user}/.bashrc"
-local zsh_rc="/home/${container_user}/.zshrc"
+bash_rc="/home/${container_user}/.bashrc"
+zsh_rc="/home/${container_user}/.zshrc"
 echo 'export GITHUB_TOKEN='${git_token} | tee -a ${bash_rc} ${zsh_rc}
 echo 'export GOPRIVATE="github.com/launchbynttdata"' | tee -a ${bash_rc} ${zsh_rc}
 

@@ -29,6 +29,12 @@
 	"customizations": {
 	  "jetbrains": {
 		"settings": {
+			"terminal.integrated.profiles.linux": {
+				"zsh": {
+					"path": "/usr/bin/zsh"
+				}
+			},
+			"terminal.integrated.defaultProfile.linux": "zsh"
 		}
 	  }
 	},

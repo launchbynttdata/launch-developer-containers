@@ -51,8 +51,11 @@
 				"vscjava.vscode-gradle",
 				"wayou.vscode-todo-highlight",
 				"wholroyd.jinja",
-				"cschlosser.doxdocgen"
-			]
+				"cschlosser.doxdocgen",
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh"
+			}
 		}
 	},
 

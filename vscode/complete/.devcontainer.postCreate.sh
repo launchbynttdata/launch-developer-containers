@@ -29,21 +29,23 @@ github_public_user="CHANGEME"
 github_public_email="CHANGEME@CHANGEME.com"
 
 # Set your ENV vars
-echo 'export GITHUB_TOKEN='${git_token} >> /home/${container_user}/.bashrc
-echo 'export GOPRIVATE="github.com/launchbynttdata"' >> /home/${container_user}/.bashrc
+local bash_rc="/home/${container_user}/.bashrc"
+local zsh_rc="/home/${container_user}/.zshrc"
+echo 'export GITHUB_TOKEN='${git_token} | tee -a ${bash_rc} ${zsh_rc}
+echo 'export GOPRIVATE="github.com/launchbynttdata"' | tee -a ${bash_rc} ${zsh_rc}
 
 # Local user scripts to added to PATH for execution
-echo 'export PATH="'${work_dir}'/.localscripts:${PATH}"' >> /home/${container_user}/.bashrc
+echo 'export PATH="'${work_dir}'/.localscripts:${PATH}"' | tee -a ${bash_rc} ${zsh_rc}
 
 # Install repo
 mkdir -p /home/${container_user}/.bin
-echo 'export PATH="${HOME}/.bin/repo:${PATH}"' >> /home/${container_user}/.bashrc
+echo 'export PATH="${HOME}/.bin/repo:${PATH}"' | tee -a ${bash_rc} ${zsh_rc}
 git clone https://github.com/launchbynttdata/git-repo.git /home/${container_user}/.bin/repo
 chmod a+rx /home/${container_user}/.bin/repo
 
 # Install asdf
 git clone https://github.com/asdf-vm/asdf.git /home/${container_user}/.asdf --branch v0.14.0
-echo '. "$HOME/.asdf/asdf.sh"' >> /home/${container_user}/.bashrc
+echo '. "$HOME/.asdf/asdf.sh"' | tee -a ${bash_rc} ${zsh_rc}
 
 # Install dependencies
 python -m pip install aws-sso-util
@@ -61,9 +63,9 @@ python -m pip install launch-cli
 
 # Set up netrc
 echo "Setting /home/${container_user}/.netrc variables"
-echo machine github.com >> /home/${container_user}/.netrc
-echo login ${github_public_user} >> /home/${container_user}/.netrc
-echo password ${git_token} >> /home/${container_user}/.netrc
+echo "machine github.com
+login ${github_public_user}
+password ${git_token}" >> /home/${container_user}/.netrc
 chmod 600 /home/${container_user}/.netrc
 
 # Configure git
@@ -78,8 +80,8 @@ echo "
 " >> /home/${container_user}/.gitconfig
 
 # shell aliases
-echo 'alias git_sync="git pull origin main"' >> /home/${container_user}/.bashrc # Alias to sync the repo with the main branch
-echo 'alias git_boop="git reset --soft HEAD~1"' >> /home/${container_user}/.bashrc # Alias to undo the last local commit but keep the changes
+echo 'alias git_sync="git pull origin main"' | tee -a ${bash_rc} ${zsh_rc} # Alias to sync the repo with the main branch
+echo 'alias git_boop="git reset --soft HEAD~1"' | tee -a ${bash_rc} ${zsh_rc} # Alias to undo the last local commit but keep the changes
 
 # Set up AWS Config
 # Default profile is set to the Sandbox Account.
@@ -126,23 +128,17 @@ credential_process = aws-sso-util credential-process --profile launch-sandbox-ad
 sso_auto_populated = true
 " >> /home/${container_user}/.aws/config
 
+# Install Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo 'export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="obraun"
+ENABLE_CORRECTION="false"
+HIST_STAMPS="%m/%d/%Y - %H:%M:%S"
+source $ZSH/oh-my-zsh.sh
+' >> ${zsh_rc}
+
 # Set folder permissions
 chown -R ${container_user}:${container_user} /home/${container_user}
 chown -R ${container_user}:${container_user} ${work_dir}
-
-# Install Oh My Zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-echo "export ZSH="\$HOME/.oh-my-zsh"
-ZSH_THEME=\"obraun\"
-ENABLE_CORRECTION=\"false\"
-HIST_STAMPS=\"%m/%d/%Y - %H:%M:%S\"
-plugins=(git)
-source \$ZSH/oh-my-zsh.sh
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-export JAVA_HOME=\"/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home\"
-export PATH=\"\$JAVA_HOME/bin:\$PATH\"
-export JAVA_HOME=\$(/usr/libexec/java_home)
-" > /home/${container_user}/.zshrc
-sudo chsh -s $(which zsh) $USER
 
 echo "Dev container setup complete"

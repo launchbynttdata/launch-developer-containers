@@ -22,20 +22,18 @@ git_token=""
 openai_token=""
 
 # AWS params
-sso_aws_url="https://d-9067900a0a.awsapps.com/start#"
+sso_aws_url="CHANGEME"
 sso_aws_region="us-east-1"
 
-aws_sandbox_account_id="020127659860"
-aws_qa_account_id="020127659860"
-aws_uat_account_id="020127659860"
-aws_prod_account_id="159247424670"
-aws_root_account_id="538234414982"
-
+aws_root_account_id="CHANGEME"
+aws_prod_account_id="CHANGEME"
+aws_sandbox_account_id="CHANGEME"
 aws_region="us-east-2"
 
 # Github params
-github_public_user="aaron-christian-nttd"
-github_public_email="aaron.christian@nttdata.com"
+github_public_user="CHANGEME"
+github_public_email="CHANGEME@CHANGEME.com"
+
 
 
 #################

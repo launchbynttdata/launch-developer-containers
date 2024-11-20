@@ -139,6 +139,10 @@ HIST_STAMPS="%m/%d/%Y - %H:%M:%S"
 source $ZSH/oh-my-zsh.sh
 ' >> ${zsh_rc}
 
+###########
+# Cleanup #
+###########
+
 # Set folder permissions
 chown -R ${container_user}:${container_user} /home/${container_user}
 chown -R ${container_user}:${container_user} ${work_dir}

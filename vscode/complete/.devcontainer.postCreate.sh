@@ -67,8 +67,9 @@ source $ZSH/oh-my-zsh.sh
 #################
 
 # Default profile is set to the Launch Sandbox Account.
-echo "Configuring .aws/config..."
-mkdir -p ~/.aws
+echo "Configuring /home/${container_user}/.aws/config..."
+mkdir -p /home/${container_user}/.aws
+
 echo "[default]
 region = ${aws_region}
 output = json
@@ -122,16 +123,21 @@ git clone https://github.com/launchbynttdata/git-repo.git /home/${container_user
 chmod a+rx /home/${container_user}/.bin/repo
 
 # Install asdf
-echo "Installing asdf tool..."
+echo -e "\nInstalling asdf tool..."
+mkdir -p /home/${container_user}/.asdf
 git clone https://github.com/asdf-vm/asdf.git /home/${container_user}/.asdf --branch v0.14.0
 echo '. "$HOME/.asdf/asdf.sh"' | tee -a ${bash_rc} ${zsh_rc}
 
 # Install aws-sso-util as a make check dependency
-python -m pip install aws-sso-util
+current_python=/usr/local/python/current/bin/python
+echo -e "\nwhich python: $(which $current_python)"
+echo "whereis python: $(whereis $current_python)"
+echo "python --version: $($current_python --version)"
+$current_python -m pip install aws-sso-util
 
 # Install Launch CLI as a dev dependency
-python -m pip install launch-cli
-python -m pip install ruamel_yaml
+$current_python -m pip install launch-cli
+$current_python -m pip install ruamel_yaml
 
 ## Uncomment the following lines if wish to have a local 
 ## dev source as the install folder
@@ -145,10 +151,10 @@ python -m pip install ruamel_yaml
 #################
 
 # Set up netrc
-echo "Setting ~/.netrc variables..."
-echo machine github.com >> ~/.netrc
-echo login ${github_public_user} >> ~/.netrc
-echo password ${git_token} >> ~/.netrc
+echo -e "\nSetting /home/${container_user}/.netrc variables..."
+echo machine github.com >> /home/${container_user}/.netrc
+echo login ${github_public_user} >> /home/${container_user}/.netrc
+echo password ${git_token} >> /home/${container_user}/.netrc
 chmod 600 /home/${container_user}/.netrc
 
 # Configure git

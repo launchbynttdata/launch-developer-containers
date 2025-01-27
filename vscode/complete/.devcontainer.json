@@ -1,0 +1,64 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "dev-dsk",
+	"remoteUser": "launchuser",
+	"image": "mcr.microsoft.com/devcontainers/base:noble",
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers/features/aws-cli:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/azure-cli:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"version": "latest"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"aws-scripting-guy.cform",
+				"amazonwebservices.aws-toolkit-vscode",
+				"cschlosser.doxdocgen",
+				"eamodio.gitlens",
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				"GitHub.vscode-pull-request-github",
+				"hediet.vscode-drawio",
+				"ms-azure-devops.azure-pipelines",
+				"ms-azuretools.azure-dev",
+				"ms-azuretools.vscode-azureresourcegroups",
+				"ms-azuretools.vscode-docker",
+				"ms-python.debugpy",
+				"ms-python.isort",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-vscode.azure-account",
+				"ms-vscode.makefile-tools",
+				"redhat.vscode-yaml",
+				"streetsidesoftware.code-spell-checker",
+				"vscjava.vscode-gradle",
+				"wayou.vscode-todo-highlight",
+				"wholroyd.jinja",
+				"cschlosser.doxdocgen"
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh"
+			}
+		}
+	},
+
+	"appPort": [ "8080:8080", "8087:8087", "5050:5050" ],
+	"postCreateCommand": "sudo apt-get install -y gettext-base; sudo bash ./.devcontainer/.devcontainer.postCreate.sh launchuser"
+}

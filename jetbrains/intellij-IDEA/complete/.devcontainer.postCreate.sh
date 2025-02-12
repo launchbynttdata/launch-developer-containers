@@ -64,17 +64,19 @@ python -m pip install launch-cli
 # cd ${work_dir}
 
 # Set up netrc
-echo "Setting /home/${container_user}/.netrc variables"
-echo "machine github.com
-login ${github_public_user}
-password ${git_token}" >> /home/${container_user}/.netrc
-chmod 600 /home/${container_user}/.netrc
+# echo "Setting /home/${container_user}/.netrc variables"
+# echo "machine github.com
+# login ${github_public_user}
+# password ${git_token}" >> /home/${container_user}/.netrc
+# chmod 600 /home/${container_user}/.netrc
 
 # Configure git
 echo "
 [user]
         name = ${github_public_user}
         email = ${github_public_email}
+[credential]
+        usehttppath = true
 [push]
         autoSetupRemote = true
 [safe]

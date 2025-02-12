@@ -148,11 +148,11 @@ python -m pip install ruamel_yaml
 #################
 
 # Set up netrc
-echo "Setting ~/.netrc variables..."
-echo machine github.com >> ~/.netrc
-echo login ${github_public_user} >> ~/.netrc
-echo password ${git_token} >> ~/.netrc
-chmod 600 /home/${container_user}/.netrc
+# echo "Setting ~/.netrc variables..."
+# echo machine github.com >> ~/.netrc
+# echo login ${github_public_user} >> ~/.netrc
+# echo password ${git_token} >> ~/.netrc
+# chmod 600 /home/${container_user}/.netrc
 
 # Configure git
 echo "Configuring git..."
@@ -160,7 +160,7 @@ echo "[user]
         name = ${github_public_user}
         email = ${github_public_email}
 [credential]
-        credentialStore = cache
+        usehttppath = true
 [push]
         autoSetupRemote = true
 [safe]
